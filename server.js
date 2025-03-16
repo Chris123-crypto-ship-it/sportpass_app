@@ -11,14 +11,21 @@ const app = express();
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
-// Konfiguriere CORS für beide Ports
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:3002',
+  'https://sportpass-app.onrender.com' // Ersetze dies mit deiner tatsächlichen Frontend-Domain in Produktion
+];
+
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002'],
+  origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   exposedHeaders: ['Authorization'],
   credentials: true
 }));
+
 
 // 🔹 Supabase Client
 const supabase = createClient('https://nofjpujlhhpluvhxbpcq.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vZmpwdWpsaGhwbHV2aHhicGNxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MTUyMDQzMCwiZXhwIjoyMDU3MDk2NDMwfQ.0vfQYUoeP9rEwUtxzmPmJ3RFBOXuFABPQNSrrse2fYI');
